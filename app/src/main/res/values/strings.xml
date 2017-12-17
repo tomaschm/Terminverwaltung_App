@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Terminverwaltung</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Edit Profile</string>
+</resources>
