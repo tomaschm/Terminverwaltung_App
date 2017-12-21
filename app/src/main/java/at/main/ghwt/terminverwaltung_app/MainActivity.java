@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity
         if (savedInstanceState == null) {
             Fragment fragment = null;
             Class fragmentClass = null;
-            fragmentClass = GroupActivity.class;
+            fragmentClass = PersonalActivity.class;
             try {
                 fragment = (Fragment) fragmentClass.newInstance();
             } catch (Exception e) {
