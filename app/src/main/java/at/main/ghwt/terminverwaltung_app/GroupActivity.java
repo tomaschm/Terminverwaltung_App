@@ -1,5 +1,6 @@
 package at.main.ghwt.terminverwaltung_app;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -31,9 +32,10 @@ import android.widget.TextView;
  * Created by Martin on 15.12.2017.
  */
 
-public class GroupActivity extends Fragment implements NavigationView.OnNavigationItemSelectedListener{
+public class GroupActivity extends Fragment implements NavigationView.OnNavigationItemSelectedListener {
 
 
+    private PersonalActivity.OnFragmentInteractionListener mListener;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -45,16 +47,66 @@ public class GroupActivity extends Fragment implements NavigationView.OnNavigati
         //ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(getActivity(), constraint, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         TextView tvHeading = (TextView) getActivity().findViewById(R.id.tvGroupHeading);
 
+
+
         return v;
     }
+
+    public GroupActivity() {
+        // Required empty public constructor
+    }
+
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        NavigationView navigationView = (NavigationView) getView().findViewById(R.id.nav_view);
+        NavigationView navigationView = ((MainActivity)getActivity()).getNavigationView();;
 
         //navigationView.setNavigationItemSelectedListener(this);
+        System.out.println("MUST HAVE BEEN INITIALISED HERE");
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.nav_group) {
+            System.out.println("groupactivity2");
+            GroupActivity fragment = new GroupActivity();
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.drawer_layout, fragment,"findThisFragment")
+                    .addToBackStack(null)
+                    .commit();
+
+        } else if (id == R.id.nav_cars) {
+            System.out.println("caractivity2");
+            CarActivity fragment = new CarActivity();
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.drawer_layout, fragment,"findThisFragment")
+                    .addToBackStack(null)
+                    .commit();
+
+        }
+        else if (id == R.id.nav_personal) {
+            System.out.println("personalactivity2");
+            PersonalActivity fragment = new PersonalActivity();
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.drawer_layout, fragment,"findThisFragment")
+                    .addToBackStack(null)
+                    .commit();
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 
     @Override
@@ -79,41 +131,32 @@ public class GroupActivity extends Fragment implements NavigationView.OnNavigati
     }
 
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.nav_group) {
-
-            GroupActivity fragment = new GroupActivity();
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.drawer_layout, fragment,"findThisFragment")
-                    .addToBackStack(null)
-                    .commit();
-
-        } else if (id == R.id.nav_cars) {
-            Snackbar snackbar = Snackbar.make(getActivity().findViewById(R.id.tvGroupHeading), "bananas", Snackbar.LENGTH_LONG);
-
-            snackbar.show();
-            CarActivity fragment = new CarActivity();
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.drawer_layout, fragment,"findThisFragment")
-                    .addToBackStack(null)
-                    .commit();
-
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof PersonalActivity.OnFragmentInteractionListener) {
+            mListener = (PersonalActivity.OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
         }
-        else if (id == R.id.nav_personal) {
-            PersonalActivity fragment = new PersonalActivity();
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.drawer_layout, fragment,"findThisFragment")
-                    .addToBackStack(null)
-                    .commit();
-
-        }
-
-        DrawerLayout drawer = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    public static GroupActivity newInstance(String param1, String param2) {
+        GroupActivity fragment = new GroupActivity();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+
 
 
 

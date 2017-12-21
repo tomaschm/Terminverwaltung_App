@@ -1,6 +1,7 @@
 package at.main.ghwt.terminverwaltung_app;
 
-import android.app.Fragment;
+import android.net.Uri;
+import android.support.v4.app.Fragment;
 import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,13 +23,17 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
+import android.support.v4.app.FragmentManager;
+
+import at.main.ghwt.terminverwaltung_app.PersonalActivity.OnFragmentInteractionListener;
+
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        OnFragmentInteractionListener {
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
-
+    NavigationView nV;
 
     private Calendar calendar = Calendar.getInstance();
 
@@ -51,9 +56,23 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        nV = (NavigationView) findViewById(R.id.nav_view);
+        nV.setNavigationItemSelectedListener(this);
 
+        if (savedInstanceState == null) {
+            Fragment fragment = null;
+            Class fragmentClass = null;
+            fragmentClass = GroupActivity.class;
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+
+        }
     }
 
     @Override
@@ -93,32 +112,44 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
+        Fragment fragment = null;
+        Class fragmentClass = null;
         if (id == R.id.nav_group) {
-
-            GroupActivity fragment = new GroupActivity();
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.drawer_layout, fragment);
-            transaction.commit();
+            System.out.println("groupactivity");
+            fragmentClass = GroupActivity.class;
 
         } else if (id == R.id.nav_cars) {
-            CarActivity fragment = new CarActivity();
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.drawer_layout, fragment);
-            transaction.commit();
+            System.out.println("caractivtiy");
+            fragmentClass = CarActivity.class;
 
         }
         else if (id == R.id.nav_personal) {
-            PersonalActivity fragment = new PersonalActivity();
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.drawer_layout, fragment);
-            transaction.commit();
+            System.out.println("personalactivity");
+            fragmentClass = PersonalActivity.class;
 
         }
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
+
+    public NavigationView getNavigationView()
+    {
+        return nV;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }
