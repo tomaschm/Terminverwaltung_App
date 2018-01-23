@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -45,7 +46,7 @@ public class PersonalActivity extends Fragment implements NavigationView.OnNavig
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        NavigationView navigationView = ((MainActivity)getActivity()).getNavigationView();;
+        NavigationView navigationView = ((MainActivity)getActivity()).getNavigationView();
 
         //navigationView.setNavigationItemSelectedListener(this);
         System.out.println("MUST HAVE BEEN INITIALISED HERE");

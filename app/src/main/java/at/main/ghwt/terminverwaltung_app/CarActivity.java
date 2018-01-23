@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 
@@ -30,6 +31,8 @@ public class CarActivity extends Fragment implements NavigationView.OnNavigation
         View v =  inflater.inflate(R.layout.activity_cars, container, false);
 
         ListView lvCars = (ListView) v.findViewById(R.id.lvCars);
+
+
         //Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
         //ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(getActivity(), constraint, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 
@@ -92,7 +95,6 @@ public class CarActivity extends Fragment implements NavigationView.OnNavigation
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
